@@ -19,16 +19,18 @@ export const App = () => {
     resolver: yupResolver(yupSchema)
   })
   const handleQuestion = async (data) => {
-    console.log(data)
+    console.log(data.userInput)
     setLoading(true)
     try {
-      const res = await axios.post('http://localhost:11434/api/generate', {
-        model: 'llama2',
-        promt: data.userInput,
-        stream: true
+      const res = await axios.post('http://localhost:11434/api/chat', {
+        model: 'deepseek-r1:1.5b',
+        messages: [
+          { role: 'user', content: data.userInput }
+        ],
+        stream: false
       })
-      setResponse(res.data.response)
-      console.log(res.data)
+      console.log(res.data.message.content)
+      setResponse(res.data.message.content)
     } catch (error) {
       console.log('error', error)
     } finally {

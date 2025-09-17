@@ -30,7 +30,7 @@ export const App = () => {
         stream: false
       })
       console.log(res.data.message.content)
-      setResponse(res.data.message.content)
+      setResponse(res.data.message.content.replace(/<think>.*?<\/think>/gs, ''))
     } catch (error) {
       console.log('error', error)
     } finally {

@@ -1,0 +1,17 @@
+<!-- favicon-a.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="title desc">
+  <!-- fondo circular -->
+  <circle cx="32" cy="32" r="30" fill="#ffffff"/>
+
+  <!-- sol rojo centrado -->
+  <circle cx="32" cy="32" r="20" fill="#e60012"/>
+
+  <!-- kaomoji: ojos y boca en blanco dentro del sol -->
+  <g transform="translate(0,7)" fill="#fff" stroke="#fff" stroke-width="3" >
+    <!-- ojos -->
+    <path d="M24.5 25.5c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/>
+    <path d="M43.5 25.5c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/>
+    <!-- boca: simple arco -->
+    <path d="M25.5 33c2 2.2 6 2.2 8 0" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

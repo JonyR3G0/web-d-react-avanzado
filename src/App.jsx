@@ -3,6 +3,8 @@ import { ChatLLM } from './components/ChatLLM'
 
 export const App = () => {
   return (
-    <ChatLLM />
+    <div className='bg-black text-amber-50 h-dvh w-dvw'>
+      <ChatLLM />
+    </div>
   )
 }

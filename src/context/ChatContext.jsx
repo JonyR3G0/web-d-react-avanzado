@@ -7,8 +7,17 @@ export const ChatContext = createContext()
 const initialState = { messages: [] }
 
 // Creando el reducer
-const ChatReducer = () => {
-// TODO Crear el reducer swich
+const ChatReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD_MESSAGE':
+      console.log('agregando mensaje...')
+      console.log(state)
+      return { ...state, messages: [...state.messages, action.payload] }
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload }
+    default:
+      return state
+  }
 }
 
 // Creando el provider

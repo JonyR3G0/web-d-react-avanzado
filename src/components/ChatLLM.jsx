@@ -1,7 +1,10 @@
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-// importar context y custom hook
+import { useContext } from 'react'
+// //  importar context y custom hook
+import { ChatContext } from '../context/ChatContext'
+import { useLLM } from '../hooks/useLLM'
 
 /**
  * Este es un objeto que retorna las validaciones de yup
@@ -20,7 +23,8 @@ export const ChatLLM = () => {
     resolver: yupResolver(yupSchema)
   })
 
-  // Importar context
+  // //Importar context
+  const { state, dispatch } = useContext(ChatContext)
   // Importar custom hook
 
   // Crear una funcion async que maneje la peticion recibe data

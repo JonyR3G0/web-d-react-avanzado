@@ -25,20 +25,31 @@ export const ChatLLM = () => {
 
   // //Importar context
   const { state, dispatch } = useContext(ChatContext)
-  // Importar custom hook
+  // //Importar custom hook
+  // *restructuramos para sacar la funcion async del hook, no estoy seguro del por que hacerlo asi, en vez de hacer que el hook lo haga, creo que tiene que ver con el tema async.
+  const { handleQuestion } = useLLM()
 
   // Crear una funcion async que maneje la peticion recibe data
+  async function fetchQuestion (data) {
   // 1.uso de dispatch con el reducer context, manda primero info y payload para historial
-  // 2. Setea el modo de waiting
-  // 3.try/catch con custom hook
-  // 3.1 envia el payload (promt)
-  // 3.2 recibe la respuesta y crea un dispatch en el reducer pero por parte del LLM
-  // 3.3 catch
-  // 3.4 Setear modo waiting en off
+    dispatch({})
+    // 2. Setea el modo de waiting
+    // 3.try/catch con custom hook
+    try {
 
+    // 3.1 envia el payload (promt)
+    // 3.2 recibe la respuesta y crea un dispatch en el reducer pero por parte del LLM
+    } catch (error) {
+    // 3.3 catch
+
+    } finally {
+      // 3.4 Setear modo waiting en off
+
+    }
+  }
   return (
     <>
-      <form onSubmit={handleSubmit(handleQuestion)}>
+      <form onSubmit={handleSubmit(fetchQuestion)}>
         <input
           type='text'
           {...register('userInput')}

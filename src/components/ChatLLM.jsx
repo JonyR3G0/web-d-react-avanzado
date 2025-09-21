@@ -1,9 +1,13 @@
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios'
-import { useState } from 'react'
+// importar context y custom hook
 
+/**
+ * Este es un objeto que retorna las validaciones de yup
+*
+ * @type {*}
+ */
 const yupSchema = yup.object({
   userInput: yup
     .string()
@@ -11,29 +15,22 @@ const yupSchema = yup.object({
 })
 
 export const ChatLLM = () => {
-  const [response, setResponse] = useState('')
-  const [loading, setLoading] = useState(false)
-
+  // Crea un Yup resolver para hacer una verificacion simple al field de input
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(yupSchema)
   })
-  const handleQuestion = async (data) => {
-    console.log(data)
-    setLoading(true)
-    try {
-      const res = await axios.post('http://localhost:11434/api/generate', {
-        model: 'llama2',
-        promt: data.userInput,
-        stream: true
-      })
-      setResponse(res.data.response)
-      console.log(res.data)
-    } catch (error) {
-      console.log('error', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+
+  // Importar context
+  // Importar custom hook
+
+  // Crear una funcion async que maneje la peticion recibe data
+  // 1.uso de dispatch con el reducer context, manda primero info y payload para historial
+  // 2. Setea el modo de waiting
+  // 3.try/catch con custom hook
+  // 3.1 envia el payload (promt)
+  // 3.2 recibe la respuesta y crea un dispatch en el reducer pero por parte del LLM
+  // 3.3 catch
+  // 3.4 Setear modo waiting en off
 
   return (
     <>
@@ -50,7 +47,10 @@ export const ChatLLM = () => {
         </button>
       </form>
       <div>
-        <p>{loading ? 'Generando respuesta 🚀' : response}</p>
+        {/* Acceso al historial de preguntas y respuestas, 2 mapeo con map y aplicacion de estilos condicional si es llm/usuario */}
+      </div>
+      <div>
+        {/* Status of waiting mode */}
       </div>
     </>
   )

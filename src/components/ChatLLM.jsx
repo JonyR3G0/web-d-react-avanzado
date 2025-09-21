@@ -36,7 +36,8 @@ export const ChatLLM = () => {
     // 2. Setea el modo de waiting
     // 3.try/catch con custom hook
     try {
-
+      const response = handleQuestion(data.userInput)
+      console.log(response)
     // 3.1 envia el payload (promt)
     // 3.2 recibe la respuesta y crea un dispatch en el reducer pero por parte del LLM
     } catch (error) {

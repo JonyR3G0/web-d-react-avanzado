@@ -1,9 +1,16 @@
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios'
-import { useState } from 'react'
+import { useContext } from 'react'
+// //  importar context y custom hook
+import { ChatContext } from '../context/ChatContext'
+import { useLLM } from '../hooks/useLLM'
 
+/**
+ * Este es un objeto que retorna las validaciones de yup
+*
+ * @type {*}
+ */
 const yupSchema = yup.object({
   userInput: yup
     .string()
@@ -11,33 +18,38 @@ const yupSchema = yup.object({
 })
 
 export const ChatLLM = () => {
-  const [response, setResponse] = useState('')
-  const [loading, setLoading] = useState(false)
-
+  // Crea un Yup resolver para hacer una verificacion simple al field de input
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(yupSchema)
   })
-  const handleQuestion = async (data) => {
-    console.log(data)
-    setLoading(true)
+
+  // //Importar context
+  const { state, dispatch } = useContext(ChatContext)
+  // //Importar custom hook
+  // *restructuramos para sacar la funcion async del hook, no estoy seguro del por que hacerlo asi, en vez de hacer que el hook lo haga, creo que tiene que ver con el tema async.
+  const { handleQuestion } = useLLM()
+
+  // Crear una funcion async que maneje la peticion recibe data
+  async function fetchQuestion (data) {
+  // 1.uso de dispatch con el reducer context, manda primero info y payload para historial
+    dispatch({})
+    // 2. Setea el modo de waiting
+    // 3.try/catch con custom hook
     try {
-      const res = await axios.post('http://localhost:11434/api/generate', {
-        model: 'llama2',
-        promt: data.userInput,
-        stream: true
-      })
-      setResponse(res.data.response)
-      console.log(res.data)
+
+    // 3.1 envia el payload (promt)
+    // 3.2 recibe la respuesta y crea un dispatch en el reducer pero por parte del LLM
     } catch (error) {
-      console.log('error', error)
+    // 3.3 catch
+
     } finally {
-      setLoading(false)
+      // 3.4 Setear modo waiting en off
+
     }
   }
-
   return (
     <>
-      <form onSubmit={handleSubmit(handleQuestion)}>
+      <form onSubmit={handleSubmit(fetchQuestion)}>
         <input
           type='text'
           {...register('userInput')}
@@ -50,7 +62,10 @@ export const ChatLLM = () => {
         </button>
       </form>
       <div>
-        <p>{loading ? 'Generando respuesta 🚀' : response}</p>
+        {/* Acceso al historial de preguntas y respuestas, 2 mapeo con map y aplicacion de estilos condicional si es llm/usuario */}
+      </div>
+      <div>
+        {/* Status of waiting mode */}
       </div>
     </>
   )

@@ -1,6 +1,5 @@
 import React, { createContext, useReducer } from 'react'
 
-
 // Creando el contexto
 export const ChatContext = createContext()
 
@@ -8,13 +7,14 @@ export const ChatContext = createContext()
 const initialState = { messages: [] }
 
 // Creando el reducer
+// ?El reducer pasa por defecto un state (el estado previo del reducer) y un action, que es el payload llamado al hacer distpatch
 const ChatReducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_MESSAGE':
+    case 'ADD':
       console.log('agregando mensaje...')
       console.log(state)
       return { ...state, messages: [...state.messages, action.payload] }
-    case 'SET_LOADING':
+    case 'LOADING':
       return { ...state, loading: action.payload }
     default:
       return state

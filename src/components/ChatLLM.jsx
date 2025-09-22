@@ -31,20 +31,24 @@ export const ChatLLM = () => {
 
   // Crear una funcion async que maneje la peticion recibe data
   async function fetchQuestion (data) {
-  // 1.uso de dispatch con el reducer context, manda primero info y payload para historial
-    dispatch({})
+    // 1.uso de dispatch con el reducer context, manda primero info del usuario y payload para historial
+    dispatch({ type: 'ADD', payload: { from: 'user', text: data.userInput } })
     // 2. Setea el modo de waiting
-    // 3.try/catch con custom hook
+    dispatch({ type: 'LOADING', payload: true })
+
     try {
-
-    // 3.1 envia el payload (promt)
-    // 3.2 recibe la respuesta y crea un dispatch en el reducer pero por parte del LLM
+      // Hacemos la peticion al hook con la info del field
+      const response = handleQuestion(data.userInput)
+      //! De momento recibo respuesta en la consola como proposito de debbugin QUITAR DESPUES
+      console.log(response)
+      // 3.1 envia el payload (promt) para el historial
+      dispatch({ type: 'ADD', payload: { from: 'machine', text: response } })
     } catch (error) {
-    // 3.3 catch
-
+    // 3.2 catch
+      console.log('ocurrio un error al conectar con el LLM : ' + error)
     } finally {
-      // 3.4 Setear modo waiting en off
-
+      // 3.3 Setear modo waiting en off
+      dispatch({ type: 'LOADING', payload: false })
     }
   }
   return (
@@ -63,6 +67,13 @@ export const ChatLLM = () => {
       </form>
       <div>
         {/* Acceso al historial de preguntas y respuestas, 2 mapeo con map y aplicacion de estilos condicional si es llm/usuario */}
+        {state.messages.map((msg, index) => (
+          <p key={index}>
+            <strong>{msg.from === 'user' ? 'Tú' : 'Bot'}:</strong>
+            {msg.text}
+          </p>
+        ))}
+        {state.loading && <p>Generando respuesta 🚀 </p>}
       </div>
       <div>
         {/* Status of waiting mode */}

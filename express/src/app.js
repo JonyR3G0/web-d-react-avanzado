@@ -1,24 +1,20 @@
-import express from 'express'
-import { infoPeliculas } from './peliculas.js'
 require('dotenv').config()
-// Dot env es una libreria para administrar los archivos .env que son secretos de la applicacion (apis, credenciales de todo tipo etc)
-// En este script basico se usa para inyectar el puerto que se va a usar para levantar el servidor, tambies se ve que comento el sensei un nombre, probablemente contenido en el archivo .env tambien, asi que lo voy a agregar.
-// Claramente el .env no esta en el repositorio del sensei, y sin acceso a las clases, toca hacer ingenieria inversa para crear ese archivo.
 
-// importar express
-// Importar libreria que se usara mas adelante
+const express = require('express')
 
+require('dotenv').config()
+
+// Sacando puerto desde .env
+const PORT = process.env.PORT
 // Creamos app de express
+const app = express()
 
-// Definir el puerto de escucha
+// Response a la raiz simple
+app.get('/', (req, res) => {
+  res.send('Hola mundo')
+})
 
-// Definimos el get para la raiz
-
-//  Un get para JSON raw de la libreria que se va a importar mas adelante
-
-// Otro get pero en esta ocacion es con parametros dinamicos, funcion para buscar por titulo o a;o
-
-// Otros gets para pais por ejemplo
-
-// !Un app.listen (No se para que funciona, habra que investigar despues)
-// ah, creo que solamente ejecuta algo cuando se escucha una conexion a un puerto, pero habra que ver
+// Lanzando la app en el puerto
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`)
+})

@@ -1,5 +1,6 @@
-require('dotenv').config();
-
+import express from 'express'
+import { infoPeliculas } from './peliculas.js'
+require('dotenv').config()
 // Dot env es una libreria para administrar los archivos .env que son secretos de la applicacion (apis, credenciales de todo tipo etc)
 // En este script basico se usa para inyectar el puerto que se va a usar para levantar el servidor, tambies se ve que comento el sensei un nombre, probablemente contenido en el archivo .env tambien, asi que lo voy a agregar.
 // Claramente el .env no esta en el repositorio del sensei, y sin acceso a las clases, toca hacer ingenieria inversa para crear ese archivo.

@@ -5,7 +5,7 @@
  */
 import express from 'express'
 import dotenv from 'dotenv'
-import fs from 'fs'
+import fs, { read } from 'fs'
 
 dotenv.config()
 
@@ -46,6 +46,11 @@ const writeJSON = (data) => {
 
 app.get('/', (req, res) => {
   res.send('Hola Mundo')
+})
+
+app.get('/peliculas', (req, res) => {
+  const info = readJSON()
+  res.json(info)
 })
 
 // Mota la app

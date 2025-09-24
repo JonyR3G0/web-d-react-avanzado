@@ -1,0 +1,10 @@
+GET http://localhost:3003/api/messages HTTP/1.1
+###
+POST http://localhost:3003/api/messages HTTP/1.1
+Host: localhost:3003
+Content-Type: application/json
+
+{
+    "text": "Hola mundo",
+    "sender": "user"
+}

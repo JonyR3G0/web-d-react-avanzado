@@ -53,6 +53,24 @@ app.get('/peliculas', (req, res) => {
   res.json(info)
 })
 
+app.get('/peliculas/:id', (req, res) => {
+  const id = parseInt(req.params.id)
+  const info = readJSON().accion.find(pelicula => pelicula.id === id)
+  res.json(info)
+})
+
+// Para correcta interpretacion de JSON
+app.use(express.json())
+
+app.post('/peliculas', (req, res) => {
+  const data = readJSON()
+  const body = req.body
+  const nuevaPeli = { id: data.accion.length + 1, ...body }
+  data.accion.push(nuevaPeli)
+  writeJSON(data)
+  res.json(nuevaPeli)
+})
+
 // Mota la app
 app.listen(PORT, () => {
   console.log('Servidor corriendo en el puerto', PORT)

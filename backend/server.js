@@ -13,6 +13,16 @@ app.get('/', (req, res) => {
   res.send('servidor corriendo')
 })
 
+app.post('api/generate', async (req, res) => {
+  const { prompt } = req.body
+  try {
+    const response = await generateFromPrompt(prompt)
+    res.status(200).json({ response })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto http://localhost:${PORT}`)
 })

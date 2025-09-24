@@ -1,24 +1,67 @@
-import express from 'express'
-import { infoPeliculas } from './peliculas.js'
 require('dotenv').config()
-// Dot env es una libreria para administrar los archivos .env que son secretos de la applicacion (apis, credenciales de todo tipo etc)
-// En este script basico se usa para inyectar el puerto que se va a usar para levantar el servidor, tambies se ve que comento el sensei un nombre, probablemente contenido en el archivo .env tambien, asi que lo voy a agregar.
-// Claramente el .env no esta en el repositorio del sensei, y sin acceso a las clases, toca hacer ingenieria inversa para crear ese archivo.
 
-// importar express
-// Importar libreria que se usara mas adelante
+const express = require('express')
 
+const { infoPeliculas } = require('./peliculas')
+
+// * Esta es la manera para acceder a el archivo .env
+require('dotenv').config()
+
+// Sacando puerto desde .env
+const PORT = process.env.PORT
 // Creamos app de express
+const app = express()
 
-// Definir el puerto de escucha
+// ? Cuantos get podemos tener? todos los que necesitemos
 
-// Definimos el get para la raiz
+// Response a la raiz simple
+app.get('/', (req, res) => {
+  res.send('Hola mundo')
+})
 
-//  Un get para JSON raw de la libreria que se va a importar mas adelante
+app.get('/api/peliculas', (req, res) => {
+  res.send(infoPeliculas)
+})
 
-// Otro get pero en esta ocacion es con parametros dinamicos, funcion para buscar por titulo o a;o
+// * Para usar variables en el url se usa un ":"
+app.get('/api/peliculas/accion/titulo/:titulo/:ano', (req, res) => {
+  const { titulo, ano } = req.params
+  const resultados = infoPeliculas.accion.filter(pelicula => pelicula.titulo === titulo && pelicula.año === Number(ano))
 
-// Otros gets para pais por ejemplo
+  if (resultados.length === 0) {
+    return res.status(400).send(`No se encontro la pelicula ${titulo} del año ${ano}`)
+  }
+  res.send(resultados)
+})
 
-// !Un app.listen (No se para que funciona, habra que investigar despues)
-// ah, creo que solamente ejecuta algo cuando se escucha una conexion a un puerto, pero habra que ver
+// * QUERRY
+app.get('/api/peliculas/comedia/pais/:pais', (req, res) => {
+  const pais = req.params.pais
+  const resultados = infoPeliculas.comedia.filter(pelicula => pelicula.pais === pais)
+
+  //   Si tenemos querry de ordenar por año, reordenamos conforme fechas
+  if (req.query.ordenar === 'ano') {
+    return res.send(resultados.sort((a, b) => a.año - b.año))
+  }
+
+  res.send(resultados)
+}
+)
+
+// Esta linea hace que sea posible que express lea y entienda JSON
+app.use(express.json())
+app.post('/api/peliculas', (req, res) => {
+  // se tiene en cuenta lo que se manda en el body para el payload por asi decir
+  const nuevaPelicula = req.body
+  console.log(nuevaPelicula)
+
+  res.status(201).send({
+    mensaje: 'la pelicula se recibio adecuadamente',
+    datos: nuevaPelicula
+  })
+})
+
+// Lanzando la app en el puerto
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`)
+})

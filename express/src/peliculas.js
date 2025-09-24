@@ -191,6 +191,6 @@ const infoPeliculas = {
       pais: 'Japón'
     }
   ]
-};
+}
 
-module.exports.infoPeliculas = infoPeliculas;
+module.exports.infoPeliculas = infoPeliculas

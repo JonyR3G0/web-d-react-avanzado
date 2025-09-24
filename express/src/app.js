@@ -1,67 +1,54 @@
-require('dotenv').config()
+// =+ 1. Importar Express +=
+/*
+ * se puede usar CommonJS o ESModules, pero no mezclarlos
+ * Usar .config directamente despues de importar dotenv es por temas de practicidad, ya que solo se usa es func.
+ */
+import express from 'express'
+import dotenv from 'dotenv'
+import fs from 'fs'
 
-const express = require('express')
+dotenv.config()
 
-const { infoPeliculas } = require('./peliculas')
+// Prueba de que se carga correctamente el env cargando el port desde .env
+console.log(process.env.PORT)
 
-// * Esta es la manera para acceder a el archivo .env
-require('dotenv').config()
+// =+ 2. Montar app +=
 
-// Sacando puerto desde .env
-const PORT = process.env.PORT
-// Creamos app de express
 const app = express()
+const PORT = process.env.PORT
 
-// ? Cuantos get podemos tener? todos los que necesitemos
-
-// Response a la raiz simple
-app.get('/', (req, res) => {
-  res.send('Hola mundo')
-})
-
-app.get('/api/peliculas', (req, res) => {
-  res.send(infoPeliculas)
-})
-
-// * Para usar variables en el url se usa un ":"
-app.get('/api/peliculas/accion/titulo/:titulo/:ano', (req, res) => {
-  const { titulo, ano } = req.params
-  const resultados = infoPeliculas.accion.filter(pelicula => pelicula.titulo === titulo && pelicula.año === Number(ano))
-
-  if (resultados.length === 0) {
-    return res.status(400).send(`No se encontro la pelicula ${titulo} del año ${ano}`)
+/**
+ * Parsea la info de la fake db
+ *
+ * @returns {Object}
+ */
+const readJSON = () => {
+  try {
+    const data = fs.readFileSync('./src/db.json', 'utf-8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.log(error)
   }
-  res.send(resultados)
-})
-
-// * QUERRY
-app.get('/api/peliculas/comedia/pais/:pais', (req, res) => {
-  const pais = req.params.pais
-  const resultados = infoPeliculas.comedia.filter(pelicula => pelicula.pais === pais)
-
-  //   Si tenemos querry de ordenar por año, reordenamos conforme fechas
-  if (req.query.ordenar === 'ano') {
-    return res.send(resultados.sort((a, b) => a.año - b.año))
-  }
-
-  res.send(resultados)
 }
-)
 
-// Esta linea hace que sea posible que express lea y entienda JSON
-app.use(express.json())
-app.post('/api/peliculas', (req, res) => {
-  // se tiene en cuenta lo que se manda en el body para el payload por asi decir
-  const nuevaPelicula = req.body
-  console.log(nuevaPelicula)
+/**
+ * Funcion que escribe la informacion que recibe en archivo
+ *
+ * @param {Object} data
+ */
+const writeJSON = (data) => {
+  try {
+    fs.writeFileSync('./src/db.json', JSON.stringify(data))
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-  res.status(201).send({
-    mensaje: 'la pelicula se recibio adecuadamente',
-    datos: nuevaPelicula
-  })
+app.get('/', (req, res) => {
+  res.send('Hola Mundo')
 })
 
-// Lanzando la app en el puerto
+// Mota la app
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`)
+  console.log('Servidor corriendo en el puerto', PORT)
 })

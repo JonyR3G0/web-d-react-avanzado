@@ -1,1 +1,10 @@
-{ messages: [] }
+{
+  "messages": [
+    {
+      "id": 1758691463335,
+      "text": "Hola mundo",
+      "sender": "user",
+      "timestamp": "2025-09-24T05:24:23.335Z"
+    }
+  ]
+}

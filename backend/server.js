@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import { generateFromPrompt } from './ollamaService.js'
+import db from './db.js'
 
 const app = express()
 const PORT = 3003

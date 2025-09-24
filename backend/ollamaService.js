@@ -9,5 +9,5 @@ export const generateFromPrompt = async (prompt) => {
     ],
     stream: false
   })
-  return res.data.message.content.replace(/<think>.*?<\/think>/gs, '')
+  return res.data.message.content
 }

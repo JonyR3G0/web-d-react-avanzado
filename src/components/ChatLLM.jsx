@@ -31,18 +31,12 @@ export const ChatLLM = () => {
 
   // Crear una funcion async que maneje la peticion recibe data
   async function fetchQuestion (data) {
-    // 1.uso de dispatch con el reducer context, manda primero info del usuario y payload para historial
     dispatch({ type: 'ADD', payload: { from: 'user', text: data.userInput } })
-    // 2. Setea el modo de waiting
     dispatch({ type: 'LOADING', payload: true })
 
     try {
-      // Hacemos la peticion al hook con la info del field
-      const response = handleQuestion(data.userInput)
-      //! De momento recibo respuesta en la consola como proposito de debbugin QUITAR DESPUES
-      console.log(response)
-      // 3.1 envia el payload (promt) para el historial
-      dispatch({ type: 'ADD', payload: { from: 'machine', text: response } })
+      const response = await handleQuestion(data.userInput)
+      dispatch({ type: 'ADD', payload: { from: 'machine', text: response.replace(/<think>.*?<\/think>/gs, '') } })
     } catch (error) {
     // 3.2 catch
       console.log('ocurrio un error al conectar con el LLM : ' + error)

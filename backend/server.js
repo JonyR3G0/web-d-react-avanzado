@@ -13,11 +13,12 @@ app.get('/', (req, res) => {
   res.send('servidor corriendo')
 })
 
-app.post('api/generate', async (req, res) => {
+app.post('/api/generate', async (req, res) => {
   const { prompt } = req.body
   try {
     const response = await generateFromPrompt(prompt)
-    res.status(200).json({ response })
+    res.json({ response })
+    console.log(response)
   } catch (error) {
     res.status(500).json({ error: error.message })
   }

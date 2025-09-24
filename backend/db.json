@@ -5,6 +5,18 @@
       "text": "Hola mundo",
       "sender": "user",
       "timestamp": "2025-09-24T05:24:23.335Z"
+    },
+    {
+      "id": 1758699021723,
+      "text": "Hi!",
+      "sender": "user",
+      "timestamp": "2025-09-24T07:30:21.723Z"
+    },
+    {
+      "id": 1758699023611,
+      "text": "\n\nHello! How can I assist you today? 😊",
+      "sender": "machine",
+      "timestamp": "2025-09-24T07:30:23.611Z"
     }
   ]
 }

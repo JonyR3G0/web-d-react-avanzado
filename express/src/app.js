@@ -82,6 +82,15 @@ app.put('/peliculas/:id', (req, res) => {
   res.json({ messaje: 'Pelicula actualizada', data: data.accion[indexPelicula] })
 })
 
+app.delete('/peliculas/:id', (req, res) => {
+  const id = parseInt(req.params.id)
+  const data = readJSON()
+  const indexPelicula = data.accion.findIndex(pelicula => pelicula.id === id)
+  data.accion.splice(indexPelicula, 1)
+  writeJSON(data)
+  res.json({ messaje: 'Pelicula eliminada' })
+})
+
 // Mota la app
 app.listen(PORT, () => {
   console.log('Servidor corriendo en el puerto', PORT)

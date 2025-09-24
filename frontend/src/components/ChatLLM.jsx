@@ -66,6 +66,8 @@ export const ChatLLM = () => {
   }, [])
 
   async function fetchQuestion (data) {
+    reset()
+
     try {
       dispatch({
         type: 'ADD',
@@ -79,16 +81,15 @@ export const ChatLLM = () => {
         type: 'ADD',
         payload: {
           from: 'machine',
-          text: response.replace(/<think>.*?<\/think>/gs, ''),
+          text: response.replace(/<think>.*?<\/think>/gs, '').replace(/\n\n/g, ''),
         },
       })
-      postDb('machine', response.replace(/<think>.*?<\/think>/gs, ''))
+      postDb('machine', response.replace(/<think>.*?<\/think>/gs, '').replace(/\n\n/g, ''))
     } catch (error) {
       console.log('Error:', error)
       // Manejar el error apropiadamente sin que cause reload
     } finally {
       dispatch({ type: 'LOADING', payload: false })
-      reset()
     }
   }
 
@@ -100,7 +101,9 @@ export const ChatLLM = () => {
       {/* Main Container */}
       <div className='relative z-10 max-w-4xl mx-auto p-4 lg:p-8 flex flex-col h-screen'>
         {/* Chat Messages Container */}
-        <div className='flex-1 mb-6 overflow-hidden'>
+        <div
+          className='flex-1 mb-6 overflow-hidden'
+        >
           <div className='h-full bg-gray-900/40 backdrop-blur-xl rounded-2xl border border-gray-700/50 shadow-2xl overflow-hidden'>
             <div className='h-full overflow-y-auto p-4 lg:p-6 space-y-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600'>
               {state.messages.length === 0
@@ -179,24 +182,22 @@ export const ChatLLM = () => {
                       <div className='flex justify-start animate-slide-up'>
                         <div className='bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl px-4 py-3 lg:px-6 lg:py-4 shadow-lg'>
                           <div className='flex items-center space-x-3'>
-                            <div className='w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center'>
-                              <div className='w-3 h-3 bg-white rounded-full animate-pulse' />
-                            </div>
+                            <div className='w-8 h-8 rounded-full bg-white animate-pulse items-center justify-center' />
                             <div className='flex items-center space-x-2'>
                               <span className='text-gray-300 text-sm lg:text-base'>
-                                Generando respuesta
+                                Un momentito, estoy pensando con todos mis tokens (ꈍᴗꈍ)♡
                               </span>
                               <div className='flex space-x-1'>
                                 <div
-                                  className='w-2 h-2 bg-blue-500 rounded-full animate-bounce'
+                                  className='w-2 h-2 bg-red-500 rounded-full animate-bounce'
                                   style={{ animationDelay: '0ms' }}
                                 />
                                 <div
-                                  className='w-2 h-2 bg-purple-500 rounded-full animate-bounce'
+                                  className='w-2 h-2 bg-white rounded-full animate-bounce'
                                   style={{ animationDelay: '150ms' }}
                                 />
                                 <div
-                                  className='w-2 h-2 bg-pink-500 rounded-full animate-bounce'
+                                  className='w-2 h-2 bg-red-500 rounded-full animate-bounce'
                                   style={{ animationDelay: '300ms' }}
                                 />
                               </div>
@@ -226,7 +227,7 @@ export const ChatLLM = () => {
                 <button
                   type='submit'
                   disabled={state.loading}
-                  className='p-2 lg:p-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95 shadow-lg'
+                  className='p-2 lg:p-3 rounded-full bg-white text-slate-800 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95 shadow-lg'
                 >
                   <svg
                     className='w-4 h-4 lg:w-5 lg:h-5'

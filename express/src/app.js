@@ -71,6 +71,17 @@ app.post('/peliculas', (req, res) => {
   res.json(nuevaPeli)
 })
 
+app.put('/peliculas/:id', (req, res) => {
+  const data = readJSON()
+  const id = parseInt(req.params.id)
+  const body = req.body
+  const indexPelicula = data.accion.findIndex(pelicula => pelicula.id === id)
+  // La razon para hacer el spread operator es para que primero se carge el estado anterior, y luego se reemplace con cualquier info que este modificada, cualquiera que sea esta.
+  data.accion[indexPelicula] = { ...data.accion[indexPelicula], ...body }
+  writeJSON(data)
+  res.json({ messaje: 'Pelicula actualizada', data: data.accion[indexPelicula] })
+})
+
 // Mota la app
 app.listen(PORT, () => {
   console.log('Servidor corriendo en el puerto', PORT)

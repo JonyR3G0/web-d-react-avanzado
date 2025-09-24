@@ -39,7 +39,7 @@ app.get('/api/peliculas/comedia/pais/:pais', (req, res) => {
   const pais = req.params.pais
   const resultados = infoPeliculas.comedia.filter(pelicula => pelicula.pais === pais)
 
-//   Si tenemos querry de ordenar por año, reordenamos conforme fechas
+  //   Si tenemos querry de ordenar por año, reordenamos conforme fechas
   if (req.query.ordenar === 'ano') {
     return res.send(resultados.sort((a, b) => a.año - b.año))
   }
@@ -47,6 +47,20 @@ app.get('/api/peliculas/comedia/pais/:pais', (req, res) => {
   res.send(resultados)
 }
 )
+
+// Esta linea hace que sea posible que express lea y entienda JSON
+app.use(express.json())
+app.post('/api/peliculas', (req, res) => {
+  // se tiene en cuenta lo que se manda en el body para el payload por asi decir
+  const nuevaPelicula = req.body
+  console.log(nuevaPelicula)
+
+  res.status(201).send({
+    mensaje: 'la pelicula se recibio adecuadamente',
+    datos: nuevaPelicula
+  })
+})
+
 // Lanzando la app en el puerto
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`)

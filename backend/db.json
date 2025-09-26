@@ -1,16 +1,5 @@
 {
   "messages": [
-    {
-      "id": 1758713146180,
-      "text": "Hola!",
-      "sender": "user",
-      "timestamp": "2025-09-24T11:25:46.180Z"
-    },
-    {
-      "id": 1758713187075,
-      "text": "Kawito-san aquí, listo para ¡jugar y ayudarte con todo lo que necesites! 🥺 Me da un poco de miedo que no entiendas mis instrucciones, pero no te preocupes, ¡es solo que soy un poco... entusiasta en mi forma de comunicar! 😊 ¿Qué te trae por aquí hoy? 🌸",
-      "sender": "machine",
-      "timestamp": "2025-09-24T11:26:27.075Z"
-    }
+
   ]
 }
